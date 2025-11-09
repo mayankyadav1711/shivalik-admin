@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Card, Table, Tag, Select, Space, message, Statistic, Row, Col } from 'antd';
-import { DollarOutlined, CheckCircleOutlined, ClockCircleOutlined } from '@ant-design/icons';
-import { getMaintenanceBills } from '../../apis/maintenance';
+import { Card, Table, Tag, Select, Space, message, Statistic, Row, Col, Button, Modal, Form, InputNumber } from 'antd';
+import { DollarOutlined, CheckCircleOutlined, ClockCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { getMaintenanceBills, generateMaintenanceBills } from '../../apis/maintenance';
 
 const MaintenanceBillsPage = () => {
     const [loading, setLoading] = useState(false);
@@ -9,6 +9,9 @@ const MaintenanceBillsPage = () => {
     const [filterMonth, setFilterMonth] = useState<number | undefined>(undefined);
     const [filterYear, setFilterYear] = useState<number>(new Date().getFullYear());
     const [filterStatus, setFilterStatus] = useState<string | undefined>(undefined);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [generateLoading, setGenerateLoading] = useState(false);
+    const [form] = Form.useForm();
 
     const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
     const buildingId = userInfo.buildingId;
@@ -33,6 +36,26 @@ const MaintenanceBillsPage = () => {
             message.error(error.message || 'Failed to fetch bills');
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleGenerateBills = async (values: any) => {
+        try {
+            setGenerateLoading(true);
+            await generateMaintenanceBills({
+                buildingId,
+                month: values.month,
+                year: values.year,
+                amount: values.amount
+            });
+            message.success('Bills generated successfully for all units!');
+            setIsModalOpen(false);
+            form.resetFields();
+            fetchBills(); // Refresh the list
+        } catch (error: any) {
+            message.error(error.message || 'Failed to generate bills');
+        } finally {
+            setGenerateLoading(false);
         }
     };
 
@@ -126,9 +149,19 @@ const MaintenanceBillsPage = () => {
 
     return (
         <div className="p-6">
-            <div className="mb-6">
-                <h1 className="text-2xl font-bold text-gray-800">Maintenance Bills</h1>
-                <p className="text-gray-500">View all maintenance bills and payment status</p>
+            <div className="mb-6 flex justify-between items-start">
+                <div>
+                    <h1 className="text-2xl font-bold text-gray-800">Maintenance Bills</h1>
+                    <p className="text-gray-500">View all maintenance bills and payment status</p>
+                </div>
+                <Button
+                    type="primary"
+                    icon={<PlusOutlined />}
+                    onClick={() => setIsModalOpen(true)}
+                    size="large"
+                >
+                    Generate Bills
+                </Button>
             </div>
 
             {/* Statistics */}
@@ -258,6 +291,87 @@ const MaintenanceBillsPage = () => {
                     scroll={{ x: 1200 }}
                 />
             </Card>
+
+            {/* Generate Bills Modal */}
+            <Modal
+                title="Generate Monthly Bills"
+                open={isModalOpen}
+                onCancel={() => {
+                    setIsModalOpen(false);
+                    form.resetFields();
+                }}
+                footer={null}
+                width={500}
+            >
+                <Form
+                    form={form}
+                    layout="vertical"
+                    onFinish={handleGenerateBills}
+                    initialValues={{
+                        month: new Date().getMonth() + 1,
+                        year: new Date().getFullYear(),
+                        amount: 5000
+                    }}
+                >
+                    <Form.Item
+                        label="Month"
+                        name="month"
+                        rules={[{ required: true, message: 'Please select month' }]}
+                    >
+                        <Select size="large">
+                            {monthNames.map((month, index) => (
+                                <Select.Option key={index + 1} value={index + 1}>
+                                    {month}
+                                </Select.Option>
+                            ))}
+                        </Select>
+                    </Form.Item>
+
+                    <Form.Item
+                        label="Year"
+                        name="year"
+                        rules={[{ required: true, message: 'Please select year' }]}
+                    >
+                        <Select size="large">
+                            {[2024, 2025, 2026, 2027, 2028].map(year => (
+                                <Select.Option key={year} value={year}>
+                                    {year}
+                                </Select.Option>
+                            ))}
+                        </Select>
+                    </Form.Item>
+
+                    <Form.Item
+                        label="Amount (₹)"
+                        name="amount"
+                        rules={[
+                            { required: true, message: 'Please enter amount' },
+                            { type: 'number', min: 1, message: 'Amount must be greater than 0' }
+                        ]}
+                    >
+                        <InputNumber
+                            size="large"
+                            style={{ width: '100%' }}
+                            placeholder="Enter maintenance amount"
+                            prefix="₹"
+                        />
+                    </Form.Item>
+
+                    <Form.Item>
+                        <Space style={{ width: '100%', justifyContent: 'flex-end' }}>
+                            <Button onClick={() => {
+                                setIsModalOpen(false);
+                                form.resetFields();
+                            }}>
+                                Cancel
+                            </Button>
+                            <Button type="primary" htmlType="submit" loading={generateLoading}>
+                                Generate Bills for All Units
+                            </Button>
+                        </Space>
+                    </Form.Item>
+                </Form>
+            </Modal>
         </div>
     );
 };
