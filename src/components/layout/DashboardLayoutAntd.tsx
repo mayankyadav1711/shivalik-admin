@@ -68,6 +68,12 @@ export const DashboardLayoutAntd = () => {
       onClick: () => navigate('/members/pending')
     },
     {
+      key: '/members/allocation',
+      icon: <UserAddOutlined />,
+      label: 'Members & Units',
+      onClick: () => navigate('/members/allocation')
+    },
+    {
       key: '/building-settings',
       icon: <SettingOutlined />,
       label: 'Building Settings',
@@ -100,6 +106,12 @@ export const DashboardLayoutAntd = () => {
       icon: <HomeOutlined />,
       label: 'Amenities',
       onClick: () => navigate('/amenities')
+    },
+    {
+      key: '/amenity-bookings',
+      icon: <CalendarOutlined />,
+      label: 'Amenity Bookings',
+      onClick: () => navigate('/amenity-bookings')
     },
     {
       key: '/committee-members',

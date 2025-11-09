@@ -29,6 +29,7 @@ import NoticesPage from '../pages/notices/NoticesPage';
 // Amenities
 import AmenitiesPage from '../pages/amenities/AmenitiesPage';
 import AmenitySlotsPage from '../pages/amenities/AmenitySlotsPage';
+import AmenityBookingsPage from '../pages/amenities/AmenityBookingsPage';
 
 // Committee
 import CommitteeMembersPage from '../pages/committee/CommitteeMembersPage';
@@ -50,6 +51,7 @@ import MaintenanceBillsPage from '../pages/maintenance/MaintenanceBillsPage';
 
 // Members
 import { PendingApprovalsPage } from '../pages/members/PendingApprovalsPage';
+import MembersAllocationPage from '../pages/members/MembersAllocationPage';
 
 // Developer Tools
 import { DeveloperToolsPage } from '../pages/dev/DeveloperToolsPage';
@@ -168,6 +170,7 @@ export const AppRoutes = () => {
         {/* Amenities */}
         <Route path="amenities" element={<AmenitiesPage />} />
         <Route path="amenities/:amenityId/slots" element={<AmenitySlotsPage />} />
+        <Route path="amenity-bookings" element={<AmenityBookingsPage />} />
 
         {/* Committee */}
         <Route path="committee-members" element={<CommitteeMembersPage />} />
@@ -189,6 +192,7 @@ export const AppRoutes = () => {
 
         {/* Members */}
         <Route path="members/pending" element={<PendingApprovalsPage />} />
+        <Route path="members/allocation" element={<MembersAllocationPage />} />
 
         {/* Developer Tools (Super Admin Only) */}
         <Route path="dev/tools" element={<DeveloperToolsPage />} />

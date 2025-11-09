@@ -62,3 +62,30 @@ export const rejectMemberApi = async (
         },
     });
 };
+
+// Get all users for a building
+export const getAllUsersApi = async (buildingId?: string): Promise<any> => {
+    const url = buildingId ? `/members/users/all?buildingId=${buildingId}` : '/members/users/all';
+    return await apiRequest<any>({
+        method: 'GET',
+        url,
+    });
+};
+
+// Create or update member with unit allocation
+export const createOrUpdateMemberApi = async (data: any): Promise<any> => {
+    return await apiRequest<any>({
+        method: 'POST',
+        url: '/members',
+        data,
+    });
+};
+
+// Update member details
+export const updateMemberApi = async (memberId: string, data: any): Promise<any> => {
+    return await apiRequest<any>({
+        method: 'PUT',
+        url: `/members/${memberId}`,
+        data,
+    });
+};
