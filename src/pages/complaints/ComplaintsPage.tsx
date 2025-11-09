@@ -62,7 +62,7 @@ const ComplaintsPage = () => {
             const data = {
                 ...values,
                 buildingId,
-                images: [] // Mock images
+                images: [] // Image upload to be implemented
             };
 
             await createComplaint(data);
@@ -310,13 +310,13 @@ const ComplaintsPage = () => {
                         </Select>
                     </Form.Item>
                     <Form.Item
-                        label="Images (Mock)"
-                        tooltip="Image upload is mocked - not implemented yet"
+                        label="Images"
+                        tooltip="Image upload feature coming soon"
                     >
                         <Upload
                             listType="picture-card"
                             beforeUpload={() => {
-                                message.info('Image upload is mocked - not implemented yet');
+                                message.info('Image upload feature will be implemented soon');
                                 return false;
                             }}
                         >

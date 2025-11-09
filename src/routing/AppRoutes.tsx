@@ -48,6 +48,12 @@ import VisitorsPage from '../pages/visitors/VisitorsPage';
 // Maintenance
 import MaintenanceBillsPage from '../pages/maintenance/MaintenanceBillsPage';
 
+// Members
+import { PendingApprovalsPage } from '../pages/members/PendingApprovalsPage';
+
+// Developer Tools
+import { DeveloperToolsPage } from '../pages/dev/DeveloperToolsPage';
+
 /* current user roles */
 const getUserRoles = (): string[] => {
   try {
@@ -180,6 +186,12 @@ export const AppRoutes = () => {
 
         {/* Maintenance */}
         <Route path="maintenance" element={<MaintenanceBillsPage />} />
+
+        {/* Members */}
+        <Route path="members/pending" element={<PendingApprovalsPage />} />
+
+        {/* Developer Tools (Super Admin Only) */}
+        <Route path="dev/tools" element={<DeveloperToolsPage />} />
 
         {/* Catch-all inside private area */}
         <Route path="*" element={<RedirectByRole />} />

@@ -16,7 +16,9 @@ import {
   LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  BuildOutlined
+  BuildOutlined,
+  UserAddOutlined,
+  ToolOutlined
 } from '@ant-design/icons';
 import { useAuth } from '../../hooks/useAuth';
 
@@ -43,6 +45,12 @@ export const DashboardLayoutAntd = () => {
       icon: <BuildOutlined />,
       label: 'Buildings',
       onClick: () => navigate('/buildings')
+    },
+    {
+      key: '/dev/tools',
+      icon: <ToolOutlined />,
+      label: 'Developer Tools',
+      onClick: () => navigate('/dev/tools')
     }
   ];
 
@@ -52,6 +60,12 @@ export const DashboardLayoutAntd = () => {
       icon: <DashboardOutlined />,
       label: 'Dashboard',
       onClick: () => navigate('/dashboard')
+    },
+    {
+      key: '/members/pending',
+      icon: <UserAddOutlined />,
+      label: 'Pending Approvals',
+      onClick: () => navigate('/members/pending')
     },
     {
       key: '/building-settings',
