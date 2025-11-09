@@ -97,6 +97,8 @@ const CommitteeMembersPage = () => {
                 return 'blue';
             case 'Treasurer':
                 return 'green';
+            case 'SecurityGuard':
+                return 'purple';
             case 'Member':
                 return 'default';
             default:
@@ -301,6 +303,7 @@ const CommitteeMembersPage = () => {
                             <Select.Option value="Chairman">Chairman</Select.Option>
                             <Select.Option value="Secretary">Secretary</Select.Option>
                             <Select.Option value="Treasurer">Treasurer</Select.Option>
+                            <Select.Option value="SecurityGuard">Security Guard</Select.Option>
                             <Select.Option value="Member">Member</Select.Option>
                         </Select>
                     </Form.Item>
